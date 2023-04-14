@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Loading from '../components/Loading';
 
 class Login extends React.Component {
   render() {
@@ -8,10 +9,12 @@ class Login extends React.Component {
       isLoginButtonDisabled,
       onInputChange,
       onLoginButtonClick,
+      isLoginLoading,
     } = this.props;
     return (
       <div data-testid="page-login">
         <h2>Login</h2>
+        <Loading show={ isLoginLoading } />
         <form>
           <label htmlFor="login-name">
             Nome
@@ -19,7 +22,7 @@ class Login extends React.Component {
               type="text"
               data-testid="login-name-input"
               id="login-name"
-              name="login-name"
+              name="loginName"
               value={ loginName }
               onChange={ onInputChange }
             />
@@ -37,11 +40,11 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
-
 Login.propTypes = {
   loginName: PropTypes.string,
   isLoginButtonDisabled: PropTypes.bool,
   onInputChange: PropTypes.func,
   onLoginButtonClick: PropTypes.func,
 }.isRequired;
+
+export default Login;

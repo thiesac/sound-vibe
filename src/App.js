@@ -12,7 +12,7 @@ import { createUser } from './services/userAPI';
 class App extends React.Component {
   state = {
     loginName: '',
-    isLoading: true,
+    isLoading: false,
     isLoginButtonDisabled: true,
   };
 
@@ -35,19 +35,14 @@ class App extends React.Component {
   };
 
   onLoginButtonClick = () => {
-    const { loginName, isLoading } = this.state;
+    createUser({ name: loginName });
     this.setState({
-      loginName: createUser({ loginName }),
-      isLoading: false,
+      isLoading: true,
     });
   };
 
   render() {
     const { loginName, isLoginButtonDisabled, isLoading } = this.state;
-    const loadingElement = (
-      <span>
-        Loading...
-      </span>);
 
     return (
       <div>
@@ -62,10 +57,10 @@ class App extends React.Component {
               loginName={ loginName }
               onLoginButtonClick={ this.onLoginButtonClick }
               onInputChange={ this.onInputChange }
+              isLoginLoading={ isLoading }
             />) }
           />
-          <Route
-            path="/search" component={ Search } />
+          <Route path="/search" component={ Search } />
           <Route exact path="/album/:id" component={ Album } />
           <Route exact path="/favorites" component={ Favorites } />
           <Route exact path="/profile" component={ Profile } />
