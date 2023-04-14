@@ -7,7 +7,7 @@ import Favorites from './pages/Favorites';
 import Profile from './pages/Profile';
 import ProfileEdit from './pages/ProfileEdit';
 import NotFound from './pages/NotFound';
-import { createUser, getUser } from './services/userAPI';
+import { createUser } from './services/userAPI';
 
 class App extends React.Component {
   state = {
@@ -15,12 +15,11 @@ class App extends React.Component {
     isLoading: false,
     isLoginButtonDisabled: true,
     isRedirect: false,
-    getUserName: '',
   };
 
-  componentDidMount() {
-    this.recoverUserName();
-  }
+  // componentDidMount() {
+  //   this.recoverUserName();
+  // }
 
   // valida o input de nome do usuário
   validationFields = () => {
@@ -45,26 +44,26 @@ class App extends React.Component {
   // botão clicado, chama o createUser e redireciona para o /search
   onLoginButtonClick = async () => {
     const { loginName } = this.state;
-    await createUser({ name: loginName })
-      .then(
-        this.setState({
-          isLoading: true,
-          isRedirect: true,
-        }),
-      );
+    this.setState({
+      isLoading: true,
+    });
+    await createUser({ name: loginName });
+    this.setState({
+      isRedirect: true,
+    });
   };
 
   // pega o nome do usuário com o getUser e guarda no estado getUserName
-  recoverUserName = async () => {
-    // const { getUserName } = this.state;
-    await getUser()
-      .then(
-        this.setState({
-          getUserName: getUser.name,
-          isLoading: true,
-        }),
-      );
-  };
+  // recoverUserName = async () => {
+  //   // const { getUserName } = this.state;
+  //   await getUser()
+  //     .then(
+  //       this.setState({
+  //         getUserName: getUser.name,
+  //         isLoading: true,
+  //       }),
+  //     );
+  // };
 
   render() {
     const {
@@ -72,7 +71,6 @@ class App extends React.Component {
       isLoginButtonDisabled,
       isLoading,
       isRedirect,
-      getUserName,
     } = this.state;
 
     return (
@@ -83,8 +81,9 @@ class App extends React.Component {
             exact
             path="/"
             render={ (props) => (
-              !isRedirect
-                ? (
+              isRedirect
+                ? <Redirect to="/search" />
+                : (
                   <Login
                     { ...props }
                     isLoginButtonDisabled={ isLoginButtonDisabled }
@@ -94,15 +93,9 @@ class App extends React.Component {
                     isLoginLoading={ isLoading }
                   />
                 )
-                : <Redirect to="/search" />
             ) }
           />
-          <Route
-            path="/search"
-            render={ (props) => (
-              <Search { ...props } getUserName={ getUserName } />
-            ) }
-          />
+          <Route exact path="/search" component={ Search } />
           <Route exact path="/album/:id" component={ Album } />
           <Route exact path="/favorites" component={ Favorites } />
           <Route exact path="/profile" component={ Profile } />
