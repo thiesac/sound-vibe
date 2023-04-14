@@ -54,13 +54,14 @@ class App extends React.Component {
       );
   };
 
-  // pega o nome do usuário com o getUser e guarda no estado
+  // pega o nome do usuário com o getUser e guarda no estado getUserName
   recoverUserName = async () => {
-    const { getUserName } = this.state;
+    // const { getUserName } = this.state;
     await getUser()
       .then(
         this.setState({
           getUserName: getUser.name,
+          isLoading: true,
         }),
       );
   };
@@ -71,6 +72,7 @@ class App extends React.Component {
       isLoginButtonDisabled,
       isLoading,
       isRedirect,
+      getUserName,
     } = this.state;
 
     return (
@@ -95,7 +97,12 @@ class App extends React.Component {
                 : <Redirect to="/search" />
             ) }
           />
-          <Route path="/search" component={ Search } />
+          <Route
+            path="/search"
+            render={ (props) => (
+              <Search { ...props } getUserName={ getUserName } />
+            ) }
+          />
           <Route exact path="/album/:id" component={ Album } />
           <Route exact path="/favorites" component={ Favorites } />
           <Route exact path="/profile" component={ Profile } />

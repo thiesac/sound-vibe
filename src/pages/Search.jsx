@@ -5,7 +5,7 @@ class Search extends React.Component {
   render() {
     return (
       <div data-testid="page-search">
-        <Header />
+        <Header getUserName={ getUserName } />
         <h2>Search</h2>
       </div>
     );

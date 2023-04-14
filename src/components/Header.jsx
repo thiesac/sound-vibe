@@ -5,14 +5,14 @@ import Loading from './Loading';
 
 class Header extends React.Component {
   render() {
-    const { isLoginLoading } = this.props;
+    const { isLoginLoading, getUserName } = this.props;
     return (
       <header data-testid="header-component">
         Header
         <Loading show={ isLoginLoading } />
         <p data-testid="header-user-name">
           {
-            // await getUser()
+            getUserName
           }
         </p>
       </header>
@@ -21,7 +21,7 @@ class Header extends React.Component {
 }
 
 Header.propTypes = {
-  isLoginLoading: PropTypes.bool,
+  getUserName: PropTypes.string,
 }.isRequired;
 
 export default Header;
