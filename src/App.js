@@ -7,7 +7,7 @@ import Favorites from './pages/Favorites';
 import Profile from './pages/Profile';
 import ProfileEdit from './pages/ProfileEdit';
 import NotFound from './pages/NotFound';
-import { createUser } from './services/userAPI';
+import { createUser, getUser } from './services/userAPI';
 
 class App extends React.Component {
   state = {
@@ -15,8 +15,14 @@ class App extends React.Component {
     isLoading: false,
     isLoginButtonDisabled: true,
     isRedirect: false,
+    getUserName: '',
   };
 
+  componentDidMount() {
+    this.recoverUserName();
+  }
+
+  // valida o input de nome do usuário
   validationFields = () => {
     const { loginName } = this.state;
     const minNumber = 3;
@@ -27,6 +33,7 @@ class App extends React.Component {
     });
   };
 
+  // aplica a validação do input de nome do usuário
   onInputChange = ({ target }) => {
     const { name, value } = target;
 
@@ -35,12 +42,25 @@ class App extends React.Component {
     }, this.validationFields);
   };
 
+  // botão clicado, chama o createUser e redireciona para o /search
   onLoginButtonClick = async () => {
+    const { loginName } = this.state;
     await createUser({ name: loginName })
       .then(
         this.setState({
           isLoading: true,
           isRedirect: true,
+        }),
+      );
+  };
+
+  // pega o nome do usuário com o getUser e guarda no estado
+  recoverUserName = async () => {
+    const { getUserName } = this.state;
+    await getUser()
+      .then(
+        this.setState({
+          getUserName: getUser.name,
         }),
       );
   };
