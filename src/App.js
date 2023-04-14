@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import Login from './pages/Login';
 import Search from './pages/Search';
 import Album from './pages/Album';
@@ -14,6 +14,7 @@ class App extends React.Component {
     loginName: '',
     isLoading: false,
     isLoginButtonDisabled: true,
+    isRedirect: false,
   };
 
   validationFields = () => {
@@ -34,15 +35,23 @@ class App extends React.Component {
     }, this.validationFields);
   };
 
-  onLoginButtonClick = () => {
-    createUser({ name: loginName });
-    this.setState({
-      isLoading: true,
-    });
+  onLoginButtonClick = async () => {
+    await createUser({ name: loginName })
+      .then(
+        this.setState({
+          isLoading: true,
+          isRedirect: true,
+        }),
+      );
   };
 
   render() {
-    const { loginName, isLoginButtonDisabled, isLoading } = this.state;
+    const {
+      loginName,
+      isLoginButtonDisabled,
+      isLoading,
+      isRedirect,
+    } = this.state;
 
     return (
       <div>
@@ -51,14 +60,20 @@ class App extends React.Component {
           <Route
             exact
             path="/"
-            render={ (props) => (<Login
-              { ...props }
-              isLoginButtonDisabled={ isLoginButtonDisabled }
-              loginName={ loginName }
-              onLoginButtonClick={ this.onLoginButtonClick }
-              onInputChange={ this.onInputChange }
-              isLoginLoading={ isLoading }
-            />) }
+            render={ (props) => (
+              !isRedirect
+                ? (
+                  <Login
+                    { ...props }
+                    isLoginButtonDisabled={ isLoginButtonDisabled }
+                    loginName={ loginName }
+                    onLoginButtonClick={ this.onLoginButtonClick }
+                    onInputChange={ this.onInputChange }
+                    isLoginLoading={ isLoading }
+                  />
+                )
+                : <Redirect to="/search" />
+            ) }
           />
           <Route path="/search" component={ Search } />
           <Route exact path="/album/:id" component={ Album } />
