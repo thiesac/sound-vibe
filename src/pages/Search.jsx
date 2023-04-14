@@ -1,9 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
+import searchAlbumsAPI from '../services/searchAlbumsAPI';
+import Loading from '../components/Loading';
+import { Link } from 'react-router-dom';
 
 class Search extends React.Component {
   state = {
+    artistName: '',
+    searchResult: [],
+    isLoading: false,
     searchInput: '',
     isSearchButtonDisabled: true,
   };
@@ -13,7 +19,6 @@ class Search extends React.Component {
     const { searchInput } = this.state;
     const minNumber = 2;
     const minSearchLength = searchInput.length >= minNumber;
-    // const minSearchLength = searchInput !== '';
 
     this.setState({
       isSearchButtonDisabled: !minSearchLength,
@@ -25,13 +30,27 @@ class Search extends React.Component {
     const { name, value } = target;
 
     this.setState({
-      [name]: value,
+      [ name ]: value,
     }, this.validationFields);
   };
 
+  onSearchButtonClick = async () => {
+    const { searchInput } = this.state;
+    this.setState({
+      isLoading: true,
+    });
+    const searchAlbumAPIrequest = await searchAlbumsAPI(searchInput);
+    this.setState({
+      searchResult: searchAlbumAPIrequest,
+      searchInput: '',
+      artistName: searchInput,
+      isLoading: false,
+    });
+  };
+
   render() {
-    const { searchInput, onSearchButtonClick } = this.props;
-    const { isSearchButtonDisabled } = this.state;
+    const { searchInput } = this.props;
+    const { isSearchButtonDisabled, isLoading, artistName, searchResult } = this.state;
     return (
       <div data-testid="page-search">
         <Header />
@@ -49,11 +68,21 @@ class Search extends React.Component {
           <button
             data-testid="search-artist-button"
             disabled={ isSearchButtonDisabled }
-            onClick={ onSearchButtonClick }
+            onClick={ this.onSearchButtonClick }
           >
             Pesquisar
           </button>
         </form>
+        <Loading show={ isLoading } />
+        <span>
+          { (
+            (searchResult.length <= 0)
+              ? <p>Nenhum álbum foi encontrado</p>
+              : searchResult.map((result) => ``
+                <Link to="/${}">
+              )
+          ``) }
+        </span>
       </div>
     );
   }
