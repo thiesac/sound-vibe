@@ -17,10 +17,6 @@ class App extends React.Component {
     isRedirect: false,
   };
 
-  // componentDidMount() {
-  //   this.recoverUserName();
-  // }
-
   // valida o input de nome do usuário
   validationFields = () => {
     const { loginName } = this.state;
@@ -41,7 +37,7 @@ class App extends React.Component {
     }, this.validationFields);
   };
 
-  // botão clicado, chama o createUser e redireciona para o /search
+  // botão clicado chama o createUser e redireciona para o /search
   onLoginButtonClick = async () => {
     const { loginName } = this.state;
     this.setState({
@@ -52,18 +48,6 @@ class App extends React.Component {
       isRedirect: true,
     });
   };
-
-  // pega o nome do usuário com o getUser e guarda no estado getUserName
-  // recoverUserName = async () => {
-  //   // const { getUserName } = this.state;
-  //   await getUser()
-  //     .then(
-  //       this.setState({
-  //         getUserName: getUser.name,
-  //         isLoading: true,
-  //       }),
-  //     );
-  // };
 
   render() {
     const {
