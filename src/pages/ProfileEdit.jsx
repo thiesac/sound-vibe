@@ -4,11 +4,11 @@ import Header from '../components/Header';
 class ProfileEdit extends React.Component {
   render() {
     return (
-      <Header>
-        <div data-testid="page-profile-edit">
+      <div data-testid="page-profile-edit">
+        <Header>
           <h2>ProfileEdit</h2>
-        </div>
-      </Header>
+        </Header>
+      </div>
     );
   }
 }

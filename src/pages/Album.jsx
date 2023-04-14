@@ -4,11 +4,11 @@ import Header from '../components/Header';
 class Album extends React.Component {
   render() {
     return (
-      <Header>
-        <div data-testid="page-album">
+      <div data-testid="page-album">
+        <Header>
           <h2>Album</h2>
-        </div>
-      </Header>
+        </Header>
+      </div>
     );
   }
 }
