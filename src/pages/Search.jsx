@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import searchAlbumsAPI from '../services/searchAlbumsAPI';
 import Loading from '../components/Loading';
-import { Link } from 'react-router-dom';
 
 class Search extends React.Component {
   state = {
@@ -12,6 +12,7 @@ class Search extends React.Component {
     isLoading: false,
     searchInput: '',
     isSearchButtonDisabled: true,
+    wasSearchBtnClicked: false,
   };
 
   // busca tem que tem um mínimo de 2 caracteres
@@ -30,10 +31,11 @@ class Search extends React.Component {
     const { name, value } = target;
 
     this.setState({
-      [ name ]: value,
+      [name]: value,
     }, this.validationFields);
   };
 
+  // ao ser clicado, botão faz a busca para a API e seta alguns estados
   onSearchButtonClick = async () => {
     const { searchInput } = this.state;
     this.setState({
@@ -45,15 +47,31 @@ class Search extends React.Component {
       searchInput: '',
       artistName: searchInput,
       isLoading: false,
+      wasSearchBtnClicked: true,
     });
   };
 
+  // componentDidUpdate() {
+  //   this.setState((prevState) => ({
+  //     searchResult: prevState.searchResult,
+  //     artistName: prevState.artistName,
+  //     isLoading: false,
+  //     wasSearchBtnClicked: true,
+  //   }));
+  // }
+
   render() {
     const { searchInput } = this.props;
-    const { isSearchButtonDisabled, isLoading, artistName, searchResult } = this.state;
+    const {
+      isSearchButtonDisabled,
+      isLoading, artistName,
+      searchResult,
+      wasSearchBtnClicked,
+    } = this.state;
     return (
       <div data-testid="page-search">
         <Header />
+        {/* FORMULÁRIO PARA PESQUISA */ }
         <form>
           <label htmlFor="search-input">
             <input
@@ -73,15 +91,32 @@ class Search extends React.Component {
             Pesquisar
           </button>
         </form>
+        {/* RETORNO DA PESQUISA */ }
         <Loading show={ isLoading } />
+        {
+          wasSearchBtnClicked
+          && (
+            <div>
+              <h3>
+                Resultado de álbuns de:
+                { artistName }
+              </h3>
+            </div>
+          )
+        }
         <span>
           { (
-            (searchResult.length <= 0)
+            (searchResult.length === 0)
               ? <p>Nenhum álbum foi encontrado</p>
-              : searchResult.map((result) => ``
-                <Link to="/${}">
-              )
-          ``) }
+              : searchResult.map((result) => (
+                <div key="result.collectionId">
+                  <Link
+                    to={ `/album/${result.collectionId}` }
+                    data-testid={ `link-to-album-${collectionId}` }
+                  />
+                </div>
+              ))
+          ) }
         </span>
       </div>
     );
