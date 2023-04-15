@@ -102,7 +102,9 @@ class Search extends React.Component {
                         to={ `/album/${result.collectionId}` }
                         data-testid={ `link-to-album-${result.collectionId}` }
                       >
-                        { result.collectionName }
+                        <img src={ result.artworkUrl100 } alt={ result.collectionName } />
+                        <p>{ result.artistName }</p>
+                        <p>{ result.collectionName }</p>
                       </Link>
                     </div>
                   )) }

@@ -34,7 +34,7 @@ class Header extends React.Component {
         <Loading show={ isLoading } />
         <p data-testid="header-user-name">
           {
-            getUserName
+            `Olá, ${getUserName}`
           }
         </p>
         <nav>
