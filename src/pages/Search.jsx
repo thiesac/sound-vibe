@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import searchAlbumsAPI from '../services/searchAlbumsAPI';
@@ -51,22 +50,13 @@ class Search extends React.Component {
     });
   };
 
-  // componentDidUpdate() {
-  //   this.setState((prevState) => ({
-  //     searchResult: prevState.searchResult,
-  //     artistName: prevState.artistName,
-  //     isLoading: false,
-  //     wasSearchBtnClicked: true,
-  //   }));
-  // }
-
   render() {
-    const { searchInput } = this.props;
     const {
       isSearchButtonDisabled,
       isLoading, artistName,
       searchResult,
       wasSearchBtnClicked,
+      searchInput,
     } = this.state;
     return (
       <div data-testid="page-search">
@@ -84,6 +74,7 @@ class Search extends React.Component {
             />
           </label>
           <button
+            type="button"
             data-testid="search-artist-button"
             disabled={ isSearchButtonDisabled }
             onClick={ this.onSearchButtonClick }
@@ -91,43 +82,38 @@ class Search extends React.Component {
             Pesquisar
           </button>
         </form>
-        {/* RETORNO DA PESQUISA */ }
+        { wasSearchBtnClicked/* RETORNO DA PESQUISA */ }
         <Loading show={ isLoading } />
         {
           wasSearchBtnClicked
           && (
             <div>
-              <h3>
-                Resultado de álbuns de:
-                { artistName }
-              </h3>
+              <div>
+                <h3>
+                  { `Resultado de álbuns de: ${artistName}` }
+                </h3>
+              </div>
+              <span>
+                { searchResult.length === 0
+                  ? <p>Nenhum álbum foi encontrado</p>
+                  : searchResult.map((result) => (
+                    <div key={ result.collectionId }>
+                      <Link
+                        to={ `/album/${result.collectionId}` }
+                        data-testid={ `link-to-album-${result.collectionId}` }
+                      />
+                    </div>
+                  )) }
+              </span>
             </div>
           )
         }
-        <span>
-          { (
-            (searchResult.length === 0)
-              ? <p>Nenhum álbum foi encontrado</p>
-              : searchResult.map((result) => (
-                <div key="result.collectionId">
-                  <Link
-                    to={ `/album/${result.collectionId}` }
-                    data-testid={ `link-to-album-${collectionId}` }
-                  />
-                </div>
-              ))
-          ) }
-        </span>
       </div>
     );
   }
 }
 
 Search.propTypes = {
-  searchInput: PropTypes.string,
-  isSearchButtonDisabled: PropTypes.bool,
-  onInputChange: PropTypes.func,
-  onSearchButtonClick: PropTypes.func,
 }.isRequired;
 
 export default Search;
