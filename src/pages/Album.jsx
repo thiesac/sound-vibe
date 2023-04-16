@@ -38,10 +38,10 @@ class Album extends React.Component {
         </div>
         <div>
           {
-            selectedAlbumTracks.map((albumTrack, index) => (
+            selectedAlbumTracks.slice(1).map((albumTrack, index) => (
               <li key={ index }>
                 { albumTrack.trackCensoredName }
-                { console.log(albumTrack.previewUrl)}
+                {/* { console.log(albumTrack.previewUrl)} */}
                 <MusicCard
                   previewUrl={ albumTrack.previewUrl }
                 />
