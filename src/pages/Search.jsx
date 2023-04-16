@@ -82,7 +82,7 @@ class Search extends React.Component {
             Pesquisar
           </button>
         </form>
-        { wasSearchBtnClicked/* RETORNO DA PESQUISA */ }
+        { /* RETORNO DA PESQUISA */ }
         <Loading show={ isLoading } />
         {
           wasSearchBtnClicked
@@ -116,8 +116,5 @@ class Search extends React.Component {
     );
   }
 }
-
-Search.propTypes = {
-}.isRequired;
 
 export default Search;

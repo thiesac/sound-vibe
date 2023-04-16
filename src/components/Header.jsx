@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { getUser } from '../services/userAPI';
 import Loading from './Loading';
@@ -46,9 +45,5 @@ class Header extends React.Component {
     );
   }
 }
-
-Header.propTypes = {
-  getUserName: PropTypes.string,
-}.isRequired;
 
 export default Header;
