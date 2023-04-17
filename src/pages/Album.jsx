@@ -25,7 +25,10 @@ class Album extends React.Component {
   };
 
   render() {
-    const { selectedAlbum, selectedAlbumTracks } = this.state;
+    const {
+      selectedAlbum,
+      selectedAlbumTracks,
+    } = this.state;
     // console.log(selectedAlbumTracks);
 
     return (
@@ -41,9 +44,10 @@ class Album extends React.Component {
             selectedAlbumTracks.slice(1).map((albumTrack, index) => (
               <li key={ index }>
                 { albumTrack.trackCensoredName }
-                {/* { console.log(albumTrack.previewUrl)} */}
+                {/* { console.log(albumTrack)} */}
                 <MusicCard
                   previewUrl={ albumTrack.previewUrl }
+                  trackId={ albumTrack.trackId }
                 />
               </li>
             ))
