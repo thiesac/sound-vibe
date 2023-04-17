@@ -5,7 +5,6 @@ import { addSong, getFavoriteSongs } from '../services/favoriteSongsAPI';
 
 class MusicCard extends React.Component {
   state = {
-    // isFavorite: false,
     isLoading: false,
     recoveredFavoriteSongs: [],
   };
@@ -38,7 +37,7 @@ class MusicCard extends React.Component {
 
   render() {
     const { previewUrl, trackId } = this.props;
-    const { isFavorite, isLoading, recoveredFavoriteSongs } = this.state;
+    const { isLoading, recoveredFavoriteSongs } = this.state;
 
     // console.log(trackId)
     return (
