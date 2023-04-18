@@ -11,7 +11,7 @@ class Album extends React.Component {
     selectedAlbum: [],
     selectedAlbumTracks: [],
     isLoading: false,
-    isFavorite: false,
+    isFavorite: true,
   };
 
   componentDidMount() {
