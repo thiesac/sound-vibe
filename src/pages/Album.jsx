@@ -4,16 +4,19 @@ import Header from '../components/Header';
 import getMusics from '../services/musicsAPI';
 import MusicCard from '../components/MusicCard';
 import Loading from '../components/Loading';
+import { getFavoriteSongs } from '../services/favoriteSongsAPI';
 
 class Album extends React.Component {
   state = {
     selectedAlbum: [],
     selectedAlbumTracks: [],
     isLoading: false,
+    isFavorite: false,
   };
 
   componentDidMount() {
     this.recoverMusicResult();
+    this.recoverFavoritesResult();
   }
 
   // recupera info do álbum selecionado no componente Search
@@ -26,11 +29,20 @@ class Album extends React.Component {
     });
   };
 
+  // mantém todas as músicas favoritas ao recarregar tela
+  recoverFavoritesResult = async () => {
+    const getFavoriteSongsResult = await getFavoriteSongs();
+    this.setState({
+      isFavorite: getFavoriteSongsResult,
+    });
+  };
+
   render() {
     const {
       selectedAlbum,
       selectedAlbumTracks,
       isLoading,
+      isFavorite,
     } = this.state;
     // console.log(selectedAlbumTracks);
 
@@ -56,6 +68,7 @@ class Album extends React.Component {
                 <MusicCard
                   previewUrl={ albumTrack.previewUrl }
                   trackId={ albumTrack.trackId }
+                  checked={ isFavorite }
                 />
               </li>
             ))

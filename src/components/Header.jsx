@@ -33,7 +33,7 @@ class Header extends React.Component {
         <Loading show={ isLoading } />
         <p data-testid="header-user-name">
           {
-            `Olá, ${getUserName}`
+            getUserName
           }
         </p>
         <nav>

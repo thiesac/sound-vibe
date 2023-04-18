@@ -1,45 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Loading from './Loading';
-import { addSong, getFavoriteSongs, removeSong } from '../services/favoriteSongsAPI';
+import { addSong, removeSong } from '../services/favoriteSongsAPI';
 
 class MusicCard extends React.Component {
   state = {
     isLoading: false,
-    recoveredFavoriteSongs: [],
+    // recoveredFavoriteSongs: [],
     isFavorite: false,
   };
 
   componentDidMount() {
-    this.recoverFavoritesResult();
   }
 
   // ao marcar o checkbox, adiciona a track como favorita pela addSong()
   onCheckedChange = async (event) => {
     const { target: { checked } } = event;
     const { trackId } = this.props;
+    this.setState({
+      isLoading: true,
+    });
     if (checked) {
       await addSong(trackId);
     } else {
       await removeSong(trackId);
     }
     this.setState({
-      isLoading: true,
-      isFavorite: checked,
-    });
-    await this.recoverFavoritesResult();
-    this.setState({
       isLoading: false,
-    });
-  };
-
-  // mantém todas as músicas favoritas ao recarregar tela
-  recoverFavoritesResult = async () => {
-    const { trackId } = this.props;
-    const getFavoriteSongsResult = await getFavoriteSongs();
-    this.setState({
-      // recoveredFavoriteSongs: getFavoriteSongsResult,
-      isFavorite: getFavoriteSongsResult.some((result) => result === trackId),
+      isFavorite: checked,
     });
   };
 
