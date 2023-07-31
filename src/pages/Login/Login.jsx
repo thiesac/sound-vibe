@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Loading from '../components/Loading';
+import Loading from '../../components/Loading/Loading';
+// import "./Login.css";
 
 class Login extends React.Component {
   render() {
@@ -13,12 +14,13 @@ class Login extends React.Component {
     } = this.props;
     return (
       <div data-testid="page-login">
-        <h2>Login</h2>
+        <p>Login</p>
         <Loading show={ isLoginLoading } />
         <form>
           <label htmlFor="login-name">
             Nome
             <input
+              className="required:border-red-500"
               type="text"
               data-testid="login-name-input"
               id="login-name"

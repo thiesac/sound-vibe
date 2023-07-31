@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import Login from './pages/Login';
+import Login from './pages/Login/Login';
 import Search from './pages/Search';
 import Album from './pages/Album';
 import Favorites from './pages/Favorites';
@@ -8,6 +8,7 @@ import Profile from './pages/Profile';
 import ProfileEdit from './pages/ProfileEdit';
 import NotFound from './pages/NotFound';
 import { createUser } from './services/userAPI';
+// import "./App.css";
 
 class App extends React.Component {
   state = {
@@ -58,8 +59,8 @@ class App extends React.Component {
     } = this.state;
 
     return (
-      <div>
-        <p>TrybeTunes</p>
+      <div className="flex-initial w-32 bg-blue-500 w-full">
+        <p className="text-3xl font-bold underline">TrybeTunes</p>
         <Switch>
           <Route
             exact

@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { getUser } from '../services/userAPI';
-import Loading from './Loading';
+import { getUser } from '../../services/userAPI';
+import Loading from '../Loading/Loading';
+import './Header.css';
 
 class Header extends React.Component {
   state = {
@@ -29,7 +30,7 @@ class Header extends React.Component {
   render() {
     const { isLoading, getUserName } = this.state;
     return (
-      <header data-testid="header-component">
+      <header className="header">
         <Loading show={ isLoading } />
         <p data-testid="header-user-name">
           {

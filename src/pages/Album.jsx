@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Header from '../components/Header';
+import Header from '../components/Header/Header';
 import getMusics from '../services/musicsAPI';
-import MusicCard from '../components/MusicCard';
-import Loading from '../components/Loading';
+import MusicCard from '../components/MusicCard/MusicCard';
+import Loading from '../components/Loading/Loading';
 import { getFavoriteSongs } from '../services/favoriteSongsAPI';
 
 class Album extends React.Component {
@@ -58,7 +58,7 @@ class Album extends React.Component {
           <p data-testid="album-name">{ selectedAlbum.collectionName }</p>
         </div>
 
-        {/* remove o primeiro elemento, que não é música, e para cada música, exibe um player com amostra da mesma */}
+        {/* remove o primeiro elemento, que não é música, e para cada música exibe um player com amostra da mesma */}
         <div>
           {
             selectedAlbumTracks.slice(1).map((albumTrack, index) => (

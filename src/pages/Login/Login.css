@@ -1,0 +1,12 @@
+.login-container {
+  align-items: start;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-container form {
+  border: 2px solid green;
+  display: flex;
+  justify-content: space-around;
+  width: 30%;
+}
